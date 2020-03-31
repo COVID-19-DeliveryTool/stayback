@@ -1,6 +1,10 @@
-function getOrder(orderId) {
+var models  = require('../models');
 
-    return `Best Order Ever ${orderId}`;
+
+async function getOrder(orderId) {
+
+    let allOrders = models.Order.findAll();
+    return JSON.stringify(allOrders);
 }
 
 module.exports = {getOrder: getOrder};
