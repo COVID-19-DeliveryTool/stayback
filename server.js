@@ -14,7 +14,7 @@ const morgan = require('morgan')
 const body_parser = require('body-parser')
 const cookie_parser = require('cookie-parser')
 const fs = require('fs')
-var models = require('../models');
+var models = require('./models');
 
 //Utilities
 const {isSessionAuthenticated} = require('./util/utilities')
