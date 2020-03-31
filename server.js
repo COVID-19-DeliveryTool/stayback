@@ -1,11 +1,13 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 const authenticationRoutes = require('./routes/authenticationRoutes')
+const orderRoutes = require('./routes/orderRoutes.js')
 const passport = require('passport')
 const SamlStrategy = require('passport-saml').Strategy
 const session = require('express-session')
 const path = require('path')
 const express = require('express')
 const https = require('https')
+const http = require('http')
 const cors = require('cors')
 const sanitizer = require('express-sanitizer')
 const morgan = require('morgan')
@@ -15,10 +17,6 @@ const fs = require('fs')
 
 //Utilities
 const {isSessionAuthenticated} = require('./util/utilities')
-
-//Keys
-const key = fs.readFileSync(path.join(__dirname, './keys/longhorn.key'))
-const cert = fs.readFileSync(path.join(__dirname, './keys/longhorn.crt'))
 
 //Routes
 const apiRouter = require('./apiRouter')
@@ -42,12 +40,18 @@ const server = (async () => {
         app.use(body_parser.json())
         app.use(body_parser.urlencoded({extended: true}))
         app.use(sanitizer())
-        app.use(cors({origin: ['https://localhost:3000', 'http://localhost:3000'], credentials: 'include'}))
+        
+        //TODO: CORS Config
+        //app.use(cors({origin: ['https://localhost:3000', 'http://localhost:3000'], credentials: 'include'}))
+        
+        //Add api route logging for request/response
         app.use(morgan('tiny'))
 
-        https.createServer({key: key, cert: cert}, app).listen(3001)
+        http.createServer(app).listen(3001)
         console.log('Server listening on port 3001')
 
+
+        //TODO: analyze use with auth provider, is necessary?
         app.use(session({
             secret: 'patrick',
             resave: true,
@@ -83,6 +87,7 @@ const server = (async () => {
 
         //API Routes
         apiRouter(app)
+        orderRoutes(app)
 
         //Serves our web application if no other routes match
         app.get('*', (req, res) => res.send('YayNeighbor'))
