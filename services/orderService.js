@@ -1,6 +1,5 @@
 var models  = require('../models');
 
-
 async function getOrder(orderId) {
 
     let allOrders = models.Order.findAll();
