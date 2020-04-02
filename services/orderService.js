@@ -1,8 +1,9 @@
-var models  = require('../models');
+const db = require('../models/model');
 
 async function getOrder(orderId) {
 
-    let allOrders = models.Order.findAll();
+    let allOrders = await db.Order.findAll({include: db.Item});
+    console.log(JSON.stringify(allOrders));
     return JSON.stringify(allOrders);
 }
 
@@ -25,10 +26,8 @@ async function createOrder(orderDetails) {
     orderDetails.status = "PENDING"
     orderDetails.assignedToDriver = ""
     orderDetails.assignedToOrg = ""
-    let order = models.Order.build(orderDetails);
-
-    await order.save();
-  return {"status": '200', 'message':"Successfully inserted item with id:" + order.id}
+    let order = await db.Order.create(orderDetails)
+    return {"status": '200', 'message':"Successfully inserted item with id:" + order.id}
 
 
 }
