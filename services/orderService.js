@@ -7,12 +7,17 @@ async function getOrder(orderId) {
 }
 
 async function createOrder(orderDetails) {
+    // console.log(orderDetails)
     let geometry = {}
     //call getCords and populate lat/long here
     // geometry.lat = coords.lat
     // geometry.long = coords.lng
-    prevOrder = models.Order.find({ where: {address: orderDetails.address}})
-    if (prevOrder.dateCreated > new Date(Date.now() - 3*60*60 * 1000))
+    console.log("test0")
+    prevOrder = await models.Order.findOne({ where: {address: orderDetails.address}})
+    console.log("test :" + prevOrder)
+    if (prevOrder && prevOrder.dateCreated > new Date(Date.now() - 3*60*60 * 1000) && orderDetails.type == 'REQUEST'){
+      return  ({"status": "400", "message": "Order has already been placed from this address within 3 hours."})
+    }
     orderDetails.latitude = 0
     orderDetails.longitude = 0
     //maybe add a dateCreated field
@@ -23,8 +28,7 @@ async function createOrder(orderDetails) {
     let order = models.Order.build(orderDetails);
 
     await order.save();
-    return "Success";
-
+  return {"status": '200', 'message':"Successfully inserted item with id:" + order.id}
 
 
 }

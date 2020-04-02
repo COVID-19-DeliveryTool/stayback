@@ -41,7 +41,8 @@ const server = (async () => {
         app.use(body_parser.json())
         app.use(body_parser.urlencoded({extended: true}))
         app.use(sanitizer())
-        
+        module.exports = app
+
         //TODO: CORS Config
         //app.use(cors({origin: ['https://localhost:3000', 'http://localhost:3000'], credentials: 'include'}))
         
