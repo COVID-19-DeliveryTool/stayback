@@ -1,8 +1,13 @@
 'use strict';
+
 module.exports = (sequelize, DataTypes) => {
   var Item = sequelize.define('Item', {
-    itemId: DataTypes.STRING,
-    name: DataTypes.STRING
+    name: DataTypes.STRING,
+    quantity: DataTypes.INTEGER
   });
+
+  Item.associate = function(models) {
+    models.Item.belongsTo(models.Order);
+  };
   return Item;
 };

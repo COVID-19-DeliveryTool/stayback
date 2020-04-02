@@ -5,4 +5,9 @@ function getOrder(orderId) {
     return orderService.getOrder(orderId);
 }
 
-module.exports = {getOrder: getOrder};
+//TOOD accept params
+function createOrder() {
+    return orderService.createOrder();
+}
+
+module.exports = {getOrder: getOrder, createOrder: createOrder};
