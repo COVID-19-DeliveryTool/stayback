@@ -1,5 +1,5 @@
-var Order  = require('../models/Order');
-var Item = require('../models/Item')
+const db = require('../models/model');
+
 async function getOrder(orderId) {
 
     let allOrders = Order.findAll();
@@ -8,10 +8,17 @@ async function getOrder(orderId) {
 
 async function createOrder() {
 
-    let order = Order.create({firstName : 'Kyle', lastName: 'Wilson', 'emailAddress': 'kylewilson52@gmail.com' });
-    let item = Item.create({name: "dumbOrder", quantity: 2});
+    let order = await db.Order.create({
+        firstName: 'Kyle',
+        lastName: 'Wilson',
+        emailAdress: 'kylewilson52@gmail.com',
+        Items: [ {'name' : 'my name'}, {name: 'item2'}]
+    },{
+        include: db.Item
+    });
+    // let item = Item.create({name: "dumbOrder", quantity: 2});
     console.log(JSON.stringify(order));
-    console.log(JSON.stringify(item));
+    // console.log(JSON.stringify(item));
 
     return "Susess";
 }

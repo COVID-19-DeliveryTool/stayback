@@ -1,17 +1,18 @@
 const Sequelize = require('sequelize');
-const Model = Sequelize.Model;
-const sequelize = require('./index');
 
-class Item extends Model {
+class Item extends Sequelize.Model {
+    static associate(models) {
+        models.Item.belongsTo(models.Order)
+    }
+    static init(sequelize, DataTypes) {
+        return super.init(
+            {
+                name: DataTypes.STRING,
+                quantity: DataTypes.STRING
+            },
+            {sequelize}
+        );
+    }
 }
-
-Item.init({
-    name: Sequelize.STRING,
-    quantity: Sequelize.STRING
-}, {
-    sequelize,
-    modelName: 'item'
-});
-
 
 module.exports = Item;

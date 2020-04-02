@@ -1,32 +1,38 @@
 const Sequelize = require('sequelize');
-const Model = Sequelize.Model;
-const sequelize = require('./index');
 
-class Order extends Model {}
+class Order extends Sequelize.Model {
+    static associate(models) {
+        models.Order.hasMany(models.Item)
+    }
 
-Order.init({
-    firstName: Sequelize.STRING,
-    lastName: Sequelize.STRING,
-    emailAddress: Sequelize.STRING,
-    address: Sequelize.STRING,
-    phoneNumber: Sequelize.STRING,
-    zipCode: Sequelize.STRING,
-    additionalInfo: Sequelize.STRING,
-    householdNumber: Sequelize.INTEGER,
-    latitude: Sequelize.STRING,
-    longitude: Sequelize.STRING,
-    status: {
-        type: Sequelize.ENUM,
-        values: ['PENDING',
-            'IN PROGRESS',
-            'COMPLETED',
-            'CANCELLED',
-            'ERROR/ACTION']
-    },
-    assignedToDriver: Sequelize.STRING,
-    assignedToOrg: Sequelize.STRING}, {
-    sequelize,
-    modelName: 'order'});
-
+    static init(sequelize, DataTypes) {
+        return super.init(
+            {
+                firstName: DataTypes.STRING,
+                lastName: DataTypes.STRING,
+                emailAddress: DataTypes.STRING,
+                address: DataTypes.STRING,
+                phoneNumber: DataTypes.STRING,
+                zipCode: DataTypes.STRING,
+                additionalInfo: DataTypes.STRING,
+                householdNumber: DataTypes.INTEGER,
+                latitude: DataTypes.STRING,
+                longitude: DataTypes.STRING,
+                status: {
+                    type: DataTypes.ENUM,
+                    values: ['PENDING',
+                        'IN PROGRESS',
+                        'COMPLETED',
+                        'CANCELLED',
+                        'ERROR/ACTION']
+                },
+                assignedToDriver: DataTypes.STRING,
+                assignedToOrg: DataTypes.STRING
+            },
+            {sequelize}
+        );
+    }
+}
 
 module.exports = Order;
+
