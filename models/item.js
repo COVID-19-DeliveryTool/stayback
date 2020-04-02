@@ -1,13 +1,18 @@
-'use strict';
+const Sequelize = require('sequelize');
 
-module.exports = (sequelize, DataTypes) => {
-  var Item = sequelize.define('Item', {
-    name: DataTypes.STRING,
-    quantity: DataTypes.INTEGER
-  });
+class Item extends Sequelize.Model {
+    static associate(models) {
+        models.Item.belongsTo(models.Order)
+    }
+    static init(sequelize, DataTypes) {
+        return super.init(
+            {
+                name: DataTypes.STRING,
+                quantity: DataTypes.STRING
+            },
+            {sequelize}
+        );
+    }
+}
 
-  Item.associate = function(models) {
-    models.Item.belongsTo(models.Order);
-  };
-  return Item;
-};
+module.exports = Item;

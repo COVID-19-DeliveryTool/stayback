@@ -14,7 +14,7 @@ const morgan = require('morgan')
 const body_parser = require('body-parser')
 const cookie_parser = require('cookie-parser')
 const fs = require('fs')
-var models = require('./models');
+var sequelize = require('./models');
 
 //Utilities
 const {isSessionAuthenticated} = require('./util/utilities')
@@ -41,7 +41,8 @@ const server = (async () => {
         app.use(body_parser.json())
         app.use(body_parser.urlencoded({extended: true}))
         app.use(sanitizer())
-        
+        module.exports = app
+
         //TODO: CORS Config
         //app.use(cors({origin: ['https://localhost:3000', 'http://localhost:3000'], credentials: 'include'}))
         
@@ -49,7 +50,7 @@ const server = (async () => {
         app.use(morgan('tiny'))
         
         //initialize sequelize models
-        models.sequelize.sync();
+        sequelize.sync();
 
         http.createServer(app).listen(3001)
         console.log('Server listening on port 3001')
