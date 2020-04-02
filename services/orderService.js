@@ -1,15 +1,15 @@
-var models  = require('../models');
+var Order  = require('../models/Order');
 
 async function getOrder(orderId) {
 
-    let allOrders = models.Order.findAll();
+    let allOrders = Order.findAll();
     return JSON.stringify(allOrders);
 }
 
 async function createOrder() {
 
-    let order = models.Order.build({firstName : 'Kyle', lastName: 'Wilson', 'emailAddress': 'kylewilson52@gmail.com' });
-    await order.save();
+    let order = Order.create({firstName : 'Kyle', lastName: 'Wilson', 'emailAddress': 'kylewilson52@gmail.com' });
+    console.log(JSON.stringify(order));
     return "Susess";
 }
 
