@@ -2,7 +2,8 @@ const db = require('../models/model');
 
 async function getOrder(orderId) {
 
-    let allOrders = Order.findAll();
+    let allOrders = await db.Order.findAll({include: db.Item});
+    console.log(JSON.stringify(allOrders));
     return JSON.stringify(allOrders);
 }
 
@@ -12,7 +13,7 @@ async function createOrder() {
         firstName: 'Kyle',
         lastName: 'Wilson',
         emailAdress: 'kylewilson52@gmail.com',
-        Items: [ {'name' : 'my name'}, {name: 'item2'}]
+        Items: [ {'name' : 'my name's}, {name: 'item2'}]
     },{
         include: db.Item
     });
