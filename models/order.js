@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
         householdNumber: DataTypes.INTEGER,
         latitude: DataTypes.STRING,
         longitude: DataTypes.STRING,
+        dateCreated: DataTypes.STRING,
         status: {
             type: DataTypes.ENUM,
             values: ['PENDING',
